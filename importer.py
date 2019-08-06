@@ -86,14 +86,14 @@ while repeat:
                 room = r
 
         time_from = e['time_from'].split(':')
-        course_date_from = date_from + datetime.timedelta(
+        course_date_from = settings.date_from + datetime.timedelta(
             days=day_offsets[e['day']],
             hours=int(time_from[0]),
             minutes=int(time_from[1]),
         )
 
         time_to = e['time_to'].split(':')
-        course_date_to = date_from + datetime.timedelta(
+        course_date_to = settings.date_from + datetime.timedelta(
             days=day_offsets[e['day']],
             hours=int(time_to[0]),
             minutes=int(time_to[1]),

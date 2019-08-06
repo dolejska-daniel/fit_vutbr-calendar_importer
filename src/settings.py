@@ -64,7 +64,7 @@ class Settings:
             if self.date_from:
                 self.date_from = self.date_from.strip()
                 try:
-                    date_from = datetime.datetime.strptime(self.date_from, '%Y-%m-%d')
+                    self.date_from = datetime.datetime.strptime(self.date_from, '%Y-%m-%d')
                     break
                 except ValueError:
                     pass
