@@ -23,20 +23,6 @@ settings = Settings(api)
 # Get settings (load/ask)
 settings.load_or_ask()
 
-# Make user select
-date_from = ""
-while True:
-    date_from = cli.ask_string("Provide academic year starting date (Y-m-d):")
-    if date_from:
-        date_from = date_from.strip()
-        try:
-            date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
-            break
-        except ValueError:
-            pass
-
-    print("Provided date is not valid, please try again.")
-
 repeat = True
 while repeat:
     repeat = False
