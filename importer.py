@@ -57,13 +57,11 @@ while repeat:
 
     print("Parsing course webpage...")
     webpage = BeautifulSoup(contents, 'lxml')
-    content_table = webpage.find("table", {"class": "tcur"})
 
-    course_data = content_table.find_all_next("td")
-    course_name = course_data[0].text
-    course_abbr = course_data[1].text
+    course_name = webpage.find("h1", {"itemprop": "name"}).text
+    course_abbr = webpage.find("span", {"itemprop": "courseCode"}).text
 
-    schedule_table = content_table.find_all("table", {"border": 1, "bordercolor": "#888888"})[1]
+    schedule_table = webpage.find("table", {"id": "schedule"})
     schedule_entries = schedule_table.find_all("tr")
     for schedule_entry in schedule_entries:
         cols = schedule_entry.find_all("td")
@@ -75,15 +73,13 @@ while repeat:
             "time_from": cols[3].text.strip(),
             "time_to": cols[4].text.strip(),
             "rooms": cols[2].text.strip().split(' '),
+            "type": cols[0].text.strip(),
             "is_exercise": cols[0].text.strip() != "přednáška" and cols[0].text.strip() != "lecture",
         })
 
     print("Importing course events...")
     for e in events:
-        room = e['rooms'][0]
-        for r in ["D105", "E112"]:
-            if r in e['rooms']:
-                room = r
+        room = ", ".join(e['rooms'])
 
         time_from = e['time_from'].split(':')
         course_date_from = settings.date_from + datetime.timedelta(
@@ -104,9 +100,9 @@ while repeat:
             colorId = settings.exercise_color['id']
 
         event = {
-            'summary': f"[{course_abbr}] {course_name}",
+            'summary': f"[{course_abbr}] {course_name} ({e['type']})",
             'location': room,
-            'description': '',
+            'description': f'<a href="{course_url}">Stránka předmětu</a>',
             'colorId': colorId,
             'source': {
                 'title': "FIT VUTBR - " + course_name,

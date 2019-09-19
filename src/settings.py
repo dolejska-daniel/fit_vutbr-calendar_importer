@@ -48,15 +48,20 @@ class Settings:
             color['id'] = color_id
             event_colors.append(color)
 
+        def custom_color_print(c):
+            return f"https://www.color-hex.com/color/{c['background'][1:]}"
+
         self.lecture_color = cli.ask_choice("Select color for " + stylize("lecture", attr('bold')) + " events (2):",
                                             choices=event_colors,
-                                            func_desc=lambda
-                                                c: f"https://www.color-hex.com/color/{c['background'][1:]}")
+                                            func_desc=custom_color_print)
+        if self.lecture_color is None:
+            self.lecture_color = event_colors[2]
 
         self.exercise_color = cli.ask_choice("Select color for " + stylize("exercise", attr('bold')) + " events (1):",
                                              choices=event_colors,
-                                             func_desc=lambda
-                                                 c: f"https://www.color-hex.com/color/{c['background'][1:]}")
+                                             func_desc=custom_color_print)
+        if self.exercise_color is None:
+            self.exercise_color = event_colors[1]
 
         # Make user select
         while True:
