@@ -8,6 +8,5 @@ Install and run the application and then follow the instructions in the app:
 git clone https://github.com/dolejska-daniel/fit_vutbr-calendar_importer
 cd fit_vutbr-calendar_importer
 pipenv install
-pipenv shell
-python importer.py
+pipenv run python importer.py
 ```
